@@ -71,7 +71,7 @@ double armOut, driveOut, turnOut;
 int main() {
   while(true){
     if(Controller1.ButtonL1.pressing()){
-      armOut = 5;
+      armOut = 7;
     }
     else if(Controller1.ButtonL2.pressing()){
       armOut =-5;
