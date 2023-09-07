@@ -83,7 +83,7 @@ int main() {
 
     driveOut=Controller1.Axis3.position()*0.12;
     turnOut=Controller1.Axis1.position()*0.12*0.7;
-    mLeft.spin(forward,driveOut,volt);
-    mRight.spin(forward,driveOut,volt);
+    mLeft.spin(forward,driveOut+turnOut,volt);
+    mRight.spin(forward,driveOut-turnOut,volt);
   }
 }
