@@ -162,6 +162,8 @@ void turnAround() {
 void autonomous(void) {
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
+  Drivetrain.setDriveVelocity(100, percent);
+  Drivetrain.setTurnVelocity(100, percent);
   Drivetrain.turnFor(right, 45, degrees);
   Drivetrain.driveFor(forward,27.23,inches);
   Drivetrain.turnFor(left,45,degrees);
