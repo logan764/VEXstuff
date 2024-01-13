@@ -1,3 +1,9 @@
+#WHEN UPLOADING TO V5, MAKE SURE THIS FITS NEARSIDE OR FARSIDE
+#EDIT VAR BELOW
+# 1 = FARSIDE 
+#-1 = NEARISIDE
+  int invert = -1;
+
 #pragma region VEXcode Generated Robot Configuration
 // Make sure all required headers are included.
 #include <stdio.h>
@@ -160,7 +166,7 @@ void turnAround() {
   Drivetrain.turnFor(left, 180, degrees);
 }
 void autonomous(void) {
-  int invert = -1;
+
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
   Drivetrain.driveFor(forward,2,inches);
