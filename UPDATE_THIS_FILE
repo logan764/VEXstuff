@@ -42,7 +42,7 @@ motor ArmMotorB = motor(PORT17, ratio18_1, false);
 motor_group Arm = motor_group(ArmMotorA, ArmMotorB);
 
 motor IntakeMotorA = motor(PORT18, ratio18_1, false);
-motor IntakeMotorB = motor(PORT20, ratio18_1, true);
+motor IntakeMotorB = motor(PORT5, ratio18_1, true);
 motor_group Intake = motor_group(IntakeMotorA, IntakeMotorB);
 
 
@@ -149,10 +149,12 @@ void turnAround() {
 void autonomous(void) {
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
-  Drivetrain.driveFor(forward, 5, inches, false);//if (Controller1.ButtonB.pressing()) {
-  wings.set(true);
-  Drivetrain.driveFor(reverse, 5, inches, true);
-  wings.set(false);
+  Drivetrain.turnFor(right, 45, degrees);
+  Drivetrain.driveFor(forward,27.23,inches);
+  Drivetrain.turnFor(left,45,degrees);
+  Drivetrain.driveFor(forward,7.82,inches);
+  Drivetrain.turnFor(right,225,degrees);
+  Drivetrain.driveFor(forward,45.13,inches);
 }
 
 void userControl(void) {
