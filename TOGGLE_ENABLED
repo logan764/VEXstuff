@@ -2,7 +2,7 @@
 //EDIT VAR BELOW
 // 1 = FARSIDE 
 //-1 = NEARISIDE
-  int invert = -1;
+  int invert = 1;
 
 #pragma region VEXcode Generated Robot Configuration
 // Make sure all required headers are included.
