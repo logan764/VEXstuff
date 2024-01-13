@@ -160,15 +160,17 @@ void turnAround() {
   Drivetrain.turnFor(left, 180, degrees);
 }
 void autonomous(void) {
+  int invert = -1;
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
+  Drivetrain.driveFor(forward,2,inches);
   Drivetrain.setDriveVelocity(100, percent);
   Drivetrain.setTurnVelocity(100, percent);
-  Drivetrain.turnFor(right, 45, degrees);
+  Drivetrain.turnFor(right, invert*45, degrees);
   Drivetrain.driveFor(forward,27.23,inches);
-  Drivetrain.turnFor(left,45,degrees);
+  Drivetrain.turnFor(left,invert*45,degrees);
   Drivetrain.driveFor(forward,7.82,inches);
-  Drivetrain.turnFor(right,180,degrees);
+  Drivetrain.turnFor(right,invert*180,degrees);
   Drivetrain.driveFor(forward,45.13,inches);
 }
 
