@@ -144,7 +144,7 @@ void runArm() {
     //Arm.setPosition(Controller1.Axis2.position(),degrees);
 }
 void turnAround() {
-  Drivetrain.turnFor(left, 180ll, degrees);
+  Drivetrain.turnFor(left, 180, degrees);
 }
 void autonomous(void) {
   Brain.Screen.clearScreen();
