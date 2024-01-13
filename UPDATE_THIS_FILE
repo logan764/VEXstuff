@@ -168,7 +168,7 @@ void autonomous(void) {
   Drivetrain.driveFor(forward,27.23,inches);
   Drivetrain.turnFor(left,45,degrees);
   Drivetrain.driveFor(forward,7.82,inches);
-  Drivetrain.turnFor(right,225,degrees);
+  Drivetrain.turnFor(right,180,degrees);
   Drivetrain.driveFor(forward,45.13,inches);
 }
 
