@@ -35,7 +35,7 @@ motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB);
 motor rightMotorA = motor(PORT13, ratio18_1, true);
 motor rightMotorB = motor(PORT14, ratio18_1, true);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
-drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1);
+drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, M_PI*4, 295, 40, inches, 1);
 
 motor ArmMotorA = motor(PORT16, ratio18_1, true);
 motor ArmMotorB = motor(PORT17, ratio18_1, false);
@@ -149,19 +149,10 @@ void turnAround() {
 void autonomous(void) {
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
-    Drivetrain.setDriveVelocity(100,percent);
-    //Drivetrain.driveFor(reverse, 60, inches);
-    //wings.set(true);
-    
-  // place automonous  code here
-    //Drivetrain.turnFmor(left, 360, degrees);
-    Drivetrain.driveFor(forward, 24, inches);//if (Controller1.ButtonB.pressing()) {
-    //Drivetrain.turnFor(right, 90, degrees);
-    //  Drivetrain.stop();
-    //  wings.set(false);
-    //  break;
-    //}
-  
+  Drivetrain.driveFor(forward, 5, inches, false);//if (Controller1.ButtonB.pressing()) {
+  wings.set(true);
+  Drivetrain.driveFor(reverse, 5, inches, true);
+  wings.set(false);
 }
 
 void userControl(void) {
