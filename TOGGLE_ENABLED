@@ -1,7 +1,7 @@
 //WHEN UPLOADING TO V5, MAKE SURE THIS FITS NEARSIDE OR FARSIDE
 //EDIT VAR BELOW
 // 1 = FARSIDE 
-//-1 = NEARISIDE
+//-1 = NEARSIDE
   int invert = 1;
 
 #pragma region VEXcode Generated Robot Configuration
@@ -35,20 +35,20 @@ brain Brain;
 // Robot configuration code.
 controller Controller1 = controller(primary);
 digital_out wings = digital_out(Brain.ThreeWirePort.H);
-motor leftMotorA = motor(PORT11, ratio18_1, false);
-motor leftMotorB = motor(PORT12, ratio18_1, false);
-motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB);
-motor rightMotorA = motor(PORT13, ratio18_1, true);
-motor rightMotorB = motor(PORT14, ratio18_1, true);
-motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
-drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1);
+motor leftMotorA = motor(PORT11, ratio6_1, false);
+motor leftMotorB = motor(PORT12, ratio6_1, false);
+motor leftMotorC = motor(PORT13, ratio6_1, false);
+motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB, leftMotorC);
 
-motor ArmMotorA = motor(PORT16, ratio18_1, true);
-motor ArmMotorB = motor(PORT17, ratio18_1, false);
-motor_group Arm = motor_group(ArmMotorA, ArmMotorB);
+motor rightMotorA = motor(PORT1, ratio6_1, true);
+motor rightMotorB = motor(PORT2, ratio6_1, true);
+motor rightMotorC = motor(PORT3, ratio6_1, true);
+motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB, rightMotorC);
 
-motor IntakeMotorA = motor(PORT18, ratio18_1, false);
-motor IntakeMotorB = motor(PORT19, ratio18_1, true);
+drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 3*PI, 12, 13, in, 1);
+
+motor IntakeMotorA = motor(PORT19, ratio6_1, false);
+motor IntakeMotorB = motor(PORT20, ratio6_1, true);
 motor_group Intake = motor_group(IntakeMotorA, IntakeMotorB);
 
 
@@ -172,12 +172,43 @@ void autonomous(void) {
   Drivetrain.driveFor(forward,2,inches);
   Drivetrain.setDriveVelocity(100, percent);
   Drivetrain.setTurnVelocity(100, percent);
+  Intake.setTurnVelocity(100,percent);
   Drivetrain.turnFor(right, invert*45, degrees);
-  Drivetrain.driveFor(forward,27.23,inches);
+  Drivetrain.driveFor(forward,22.869756222,inches);
   Drivetrain.turnFor(left,invert*45,degrees);
-  Drivetrain.driveFor(forward,7.82,inches);
-  Drivetrain.turnFor(right,invert*180,degrees);
-  Drivetrain.driveFor(forward,45.13,inches);
+  Drivetrain.driveFor(forward,11.461,inches);
+  Intake.spin(reverse);
+  wait(1, seconds);
+  Intake.stop();
+  Drivetrain.driveFor(reverse,4.059, inches);
+  if(invert == 1){
+    Drivetrain.turnFor(right, 90,degrees);
+    Drivetrain.driveFor(forward, 38.23, inches);
+    Drivetrain.turnFor(left, 90, degrees);
+    Drivetrain.driveFor(forward, 6.925, inches);
+    wings.set(true);
+    Drivetrain.turnFor(right, 45, degrees);
+    Drivetrain.turnFor(left, 45, degrees);
+    wings.set(false);
+    Drivetrain.turnFor(right, 45, degrees);
+    Drivetrain.driveFor(forward, 8.3572, inches);
+    Drivetrain.turnFor(left, 34, degrees);
+    Intake.spin(forward);
+    Drivetrain.driveFor(forward, 5.371, inches);
+    Intake.stop()
+    Drivetrain.turnFor(left, 56, degrees);
+    wings.set(true);
+    Drivetrain.driveFor(forward, 27.46, inches);
+    turnAround();
+    Intake.spin(reverse);
+    Drivetrain.driveFor(forward, 6, inches);
+    turnAround();
+    Drivetrain.driveFor(forward, 7, inches);
+  }
+  else{
+
+  }
+
 }
 
 void userControl(void) {
