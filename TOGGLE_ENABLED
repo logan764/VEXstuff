@@ -2,7 +2,7 @@
 //EDIT VAR BELOW
 // 1 = FARSIDE 
 //-1 = NEARSIDE
-  int invert = 1;
+  int invert = -1;
 
 #pragma region VEXcode Generated Robot Configuration
 // Make sure all required headers are included.
@@ -35,22 +35,21 @@ brain Brain;
 // Robot configuration code.
 controller Controller1 = controller(primary);
 digital_out wings = digital_out(Brain.ThreeWirePort.H);
-motor leftMotorA = motor(PORT11, ratio6_1, false);
-motor leftMotorB = motor(PORT12, ratio6_1, false);
-motor leftMotorC = motor(PORT13, ratio6_1, false);
+motor leftMotorA = motor(PORT11, ratio6_1, true);
+motor leftMotorB = motor(PORT12, ratio6_1, true);
+motor leftMotorC = motor(PORT13, ratio6_1, true);
 motor_group LeftDriveSmart = motor_group(leftMotorA, leftMotorB, leftMotorC);
 
-motor rightMotorA = motor(PORT1, ratio6_1, true);
+motor rightMotorA = motor(PORT1, ratio6_1, false);
 motor rightMotorB = motor(PORT2, ratio6_1, true);
-motor rightMotorC = motor(PORT3, ratio6_1, true);
+motor rightMotorC = motor(PORT3, ratio6_1, false);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB, rightMotorC);
 
-drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 3*M_PI, 12, 13, inches, 1);
+drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 3*M_PI, 12, 12.5, inches, 1);
 
 motor IntakeMotorA = motor(PORT19, ratio6_1, false);
 motor IntakeMotorB = motor(PORT20, ratio6_1, true);
 motor_group Intake = motor_group(IntakeMotorA, IntakeMotorB);
-
 
 
 
@@ -60,8 +59,6 @@ void playVexcodeSound(const char *soundName) {
   printf("VEXPlaySound:%s\n", soundName);
   wait(5, msec);
 }
-
-
 
 // define variable for remote controller enable/disable
 bool RemoteControlCodeEnabled = true;
@@ -130,6 +127,7 @@ task rc_auto_loop_task_Controller1(rc_auto_loop_function_Controller1);
 
 #pragma endregion VEXcode Generated Robot Configuration
 
+
 // ----------------------------------------------------------------------------
 //                                                                            
 //    Project:                                               
@@ -169,19 +167,20 @@ void autonomous(void) {
 
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
-  Drivetrain.driveFor(forward,2,inches);
-  Drivetrain.setDriveVelocity(100, percent);
-  Drivetrain.setTurnVelocity(100, percent);
-  //Intake.setVelocity(100,percent);
+  Intake.setVelocity(100,percent);
+  Intake.spin(reverse);
+  Drivetrain.setDriveVelocity(50, percent);
+  Drivetrain.setTurnVelocity(50, percent);
+  Drivetrain.driveFor(forward,12,inches);
   Drivetrain.turnFor(right, invert*45, degrees);
   Drivetrain.driveFor(forward,22.869756222,inches);
   Drivetrain.turnFor(left,invert*45,degrees);
-  Drivetrain.driveFor(forward,11.461,inches);
-  Intake.spin(reverse, 12, volt);
+  Drivetrain.driveFor(forward,15.461,inches);
+  Intake.spin(forward, 12, volt);
   wait(1, seconds);
   Intake.stop();
-  Drivetrain.driveFor(reverse,4.059, inches);
-  if(invert == 1){
+  //Drivetrain.driveFor(reverse,4.059, inches);
+  if(invert == 3708){
     Drivetrain.turnFor(right, 90,degrees);
     Drivetrain.driveFor(forward, 38.23, inches);
     Drivetrain.turnFor(left, 90, degrees);
@@ -219,6 +218,8 @@ Drivetrain.stop();
 double armOut;
 //bool canPress = true;
   while (true) {
+    Drivetrain.setDriveVelocity(100, percent);
+    Drivetrain.setTurnVelocity(100, percent);
     Intake.setVelocity(100,percent);
     if (Controller1.ButtonL1.pressing()) {
       wings.set(true);
@@ -229,10 +230,10 @@ double armOut;
     armOut=Controller1.Axis2.position()*0.12;
     //Arm.spin(forward,armOut,volt);
     if (Controller1.ButtonR1.pressing()) {
-      Intake.spin(forward, 12, volt);
+      Intake.spin(reverse, 12, volt);
     }
     else if (Controller1.ButtonR2.pressing()) {
-      Intake.spin(reverse, 12, volt);
+      Intake.spin(forward, 12, volt);
     }
     else{
       Intake.stop();
