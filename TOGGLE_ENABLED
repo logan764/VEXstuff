@@ -45,7 +45,7 @@ motor rightMotorB = motor(PORT2, ratio6_1, true);
 motor rightMotorC = motor(PORT3, ratio6_1, true);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB, rightMotorC);
 
-drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 3*PI, 12, 13, in, 1);
+drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 3*M_PI, 12, 13, inches, 1);
 
 motor IntakeMotorA = motor(PORT19, ratio6_1, false);
 motor IntakeMotorB = motor(PORT20, ratio6_1, true);
@@ -172,12 +172,12 @@ void autonomous(void) {
   Drivetrain.driveFor(forward,2,inches);
   Drivetrain.setDriveVelocity(100, percent);
   Drivetrain.setTurnVelocity(100, percent);
-  Intake.setTurnVelocity(100,percent);
+  //Intake.setVelocity(100,percent);
   Drivetrain.turnFor(right, invert*45, degrees);
   Drivetrain.driveFor(forward,22.869756222,inches);
   Drivetrain.turnFor(left,invert*45,degrees);
   Drivetrain.driveFor(forward,11.461,inches);
-  Intake.spin(reverse);
+  Intake.spin(reverse, 12, volt);
   wait(1, seconds);
   Intake.stop();
   Drivetrain.driveFor(reverse,4.059, inches);
@@ -193,14 +193,14 @@ void autonomous(void) {
     Drivetrain.turnFor(right, 45, degrees);
     Drivetrain.driveFor(forward, 8.3572, inches);
     Drivetrain.turnFor(left, 34, degrees);
-    Intake.spin(forward);
+    Intake.spin(forward, 12, volt);
     Drivetrain.driveFor(forward, 5.371, inches);
-    Intake.stop()
+    Intake.stop();
     Drivetrain.turnFor(left, 56, degrees);
     wings.set(true);
     Drivetrain.driveFor(forward, 27.46, inches);
     turnAround();
-    Intake.spin(reverse);
+    Intake.spin(reverse, 12, volt);
     Drivetrain.driveFor(forward, 6, inches);
     turnAround();
     Drivetrain.driveFor(forward, 7, inches);
