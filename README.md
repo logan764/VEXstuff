@@ -1,1 +1,1 @@
-use the programs labeled 60053a
+<p>use the programs labeled 60053a.<br>farside and nearside programs should be respectively named. <br>just in case, double check the variable <i>invert</i> and make sure it is the correct number.</p>
