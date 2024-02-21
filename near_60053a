@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <math.h>
 #include <string.h>
-
+#include <list>
 
 #include "vex.h"
 
@@ -54,8 +54,9 @@ motor mArmL = motor(PORT19, ratio18_1, false);
 motor_group arm= motor_group(mArmL, mArmR);
 motor_group mLeft = motor_group(mL1, mL2, mL3);
 motor_group mRight = motor_group(mR1, mR2, mR3);
-smartdrive Drivetrain = smartdrive(mLeft, mRight, imu, 319.19, 255, 235, mm, .5*0.5714285714285714);
-
+//inertial imu = inertial()
+//smartdrive Drivetrain = smartdrive(mLeft, mRight, imu, 319.19, 255, 235, mm, .5*0.5714285714285714);
+drivetrain Drivetrain = drivetrain(mLeft, mRight, 319.19, 255, 235, mm, .5*0.5714285714285714);
 
 // Helper to make playing sounds from the V5 in VEXcode easier and
 // keeps the code cleaner by making it clear what is happening.
@@ -88,7 +89,7 @@ int rc_auto_loop_function_Controller1() {
         // check if the left motor has already been stopped
         if (DrivetrainLNeedsToBeStopped_Controller1) {
           // stop the left drive motor
-          LeftDriveSmart.stop();
+          mLeft.stop();
           // tell the code that the left motor has been stopped
           DrivetrainLNeedsToBeStopped_Controller1 = false;
         }
@@ -101,7 +102,7 @@ int rc_auto_loop_function_Controller1() {
         // check if the right motor has already been stopped
         if (DrivetrainRNeedsToBeStopped_Controller1) {
           // stop the right drive motor
-          RightDriveSmart.stop();
+          mRight.stop();
           // tell the code that the right motor has been stopped
           DrivetrainRNeedsToBeStopped_Controller1 = false;
         }
@@ -112,13 +113,13 @@ int rc_auto_loop_function_Controller1() {
       
       // only tell the left drive motor to spin if the values are not in the deadband range
       if (DrivetrainLNeedsToBeStopped_Controller1) {
-        LeftDriveSmart.setVelocity(drivetrainLeftSideSpeed, percent);
-        LeftDriveSmart.spin(forward);
+        mLeft.setVelocity(drivetrainLeftSideSpeed, percent);
+        mLeft.spin(forward);
       }
       // only tell the right drive motor to spin if the values are not in the deadband range
       if (DrivetrainRNeedsToBeStopped_Controller1) {
-        RightDriveSmart.setVelocity(drivetrainRightSideSpeed, percent);
-        RightDriveSmart.spin(forward);
+        mRight.setVelocity(drivetrainRightSideSpeed, percent);
+        mRight.spin(forward);
       }
     }
     // wait before repeating the process
@@ -167,12 +168,25 @@ void runArm() {
 void turnAround() {
   Drivetrain.turnFor(left, 180, degrees);
 }
+
+//0 = forward, 1 = reverse
+void _90(int dir){
+  directionType _a = reverse;
+  if(dir == 1){
+    _a = forward;
+  }
+  arm.spin(_a);
+  wait(1, seconds);
+  arm.stop();
+}
+
 void autonomous(void) {
 
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
-  arm.setVelocity(100,percent);
-  arm.driveFor(forward, 360, degrees);
+  arm.setVelocity(5400,rpm);
+  _90(0);
+  _90(1);
   Drivetrain.setDriveVelocity(50, percent);
   Drivetrain.setTurnVelocity(50, percent);
   Drivetrain.driveFor(forward,12+3.24803,inches);
@@ -180,7 +194,8 @@ void autonomous(void) {
   Drivetrain.driveFor(forward,22.869756222+3.24803,inches);
   Drivetrain.turnFor(left,invert*45,degrees);
   Drivetrain.driveFor(forward,15.461+3.24803,inches);
-  arm.driveFor(reverse, 360, degrees);
+  _90(0);
+  _90(1);
   //wait(1, seconds);
   //arm.stop();
   //Drivetrain.driveFor(reverse,4.059, inches);
@@ -196,16 +211,16 @@ void autonomous(void) {
     Drivetrain.turnFor(right, 45, degrees);
     Drivetrain.driveFor(forward, 8.3572, inches);
     Drivetrain.turnFor(left, 34, degrees);
-    arm.spin(forward, 12, volt);
     Drivetrain.driveFor(forward, 5.371, inches);
-    arm.stop();
+    _90(0);
+    _90(1);
     Drivetrain.turnFor(left, 56, degrees);
     //wings.set(true);
     Drivetrain.driveFor(forward, 27.46, inches);
     turnAround();
-    arm.spin(reverse, 12, volt);
     Drivetrain.driveFor(forward, 6, inches);
-    turnAround();
+    _90(0);
+    _90(1);
     Drivetrain.driveFor(forward, 7, inches);
   //}
   //else{
