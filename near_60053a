@@ -35,7 +35,7 @@ brain Brain;
 // Robot configuration code.
 controller Controller1 = controller(primary);
 digital_out wings = digital_out(Brain.ThreeWirePort.H);
-bool holdit = True;
+bool holdit = true;
 motor mR1 = motor(PORT3, ratio18_1, false);
 
 motor mArmR = motor(PORT4, ratio18_1, true);
@@ -172,20 +172,19 @@ void turnAround() {
 
 void stop_hammer_time(){//cannot think of variable names rn
     holdit = !holdit;
-    if(holdit == True){arm.setStopping(hold);}
-    else{arm.setStopping(setStopping(coast);}
+    if(holdit == true){arm.setStopping(hold);}
+    else{arm.setStopping(coast);}
     arm.stop();}
-    else{arm.stop();}
 
-void 90fwd(){
-if(armisSpinning()==False){
+void _90fwd(){
+if(arm.isSpinning()==false){
 arm.setPosition(fmod(arm.position(degrees),360),degrees);
 }
 arm.spinToPosition(arm.position(degrees)+90, degrees, false);
 }
 
-void 90rvs(){
-if(armisSpinning()==False){
+void _90rvs(){
+if(arm.isSpinning()==false){
 arm.setPosition(fmod(arm.position(degrees),360),degrees);
 }
 arm.spinToPosition(arm.position(degrees)-90, degrees, false);
@@ -196,8 +195,8 @@ void autonomous(void) {
   Brain.Screen.clearScreen();
   Brain.Screen.print("autonomous code");
   arm.setVelocity(5400,rpm);
-  90fwd();
-  90rvs();
+  _90fwd();
+  _90rvs();
   Drivetrain.setDriveVelocity(50, percent);
   Drivetrain.setTurnVelocity(50, percent);
   Drivetrain.driveFor(forward,12+3.24803,inches);
@@ -205,8 +204,8 @@ void autonomous(void) {
   Drivetrain.driveFor(forward,22.869756222+3.24803,inches);
   Drivetrain.turnFor(left,invert*45,degrees);
   Drivetrain.driveFor(forward,15.461+3.24803,inches);
-  90fwd();
-  90rvs();
+  _90fwd();
+  _90rvs();
   //wait(1, seconds);
   //arm.stop();
   //Drivetrain.driveFor(reverse,4.059, inches);
@@ -223,15 +222,15 @@ void autonomous(void) {
     Drivetrain.driveFor(forward, 8.3572, inches);
     Drivetrain.turnFor(left, 34, degrees);
     Drivetrain.driveFor(forward, 5.371, inches);
-    90fwd();
-    90rvs();
+    _90fwd();
+    _90rvs();
     Drivetrain.turnFor(left, 56, degrees);
     //wings.set(true);
     Drivetrain.driveFor(forward, 27.46, inches);
     turnAround();
     Drivetrain.driveFor(forward, 6, inches);
-    90fwd();
-    90rvs();
+    _90fwd();
+    _90rvs();
     Drivetrain.driveFor(forward, 7, inches);
   //}
   //else{
@@ -246,7 +245,7 @@ void userControl(void) {
 //set the drivetrain to stop here
 Drivetrain.stop();
 double armOut;
-double canPress == True;
+double canPress = true;
   while (true) {
     Drivetrain.setDriveVelocity(100, percent);
     Drivetrain.setTurnVelocity(100, percent);
@@ -259,17 +258,16 @@ double canPress == True;
     }
     armOut=Controller1.Axis2.position()*0.12;
     //Arm.spin(forward,armOut,volt);
-    if(Controller1.ButtonL1.pressing()){90fwd();}//L1 and L2 turn 90 backwards/forwards 4 intake
-    else if(Controller1.ButtonL2.pressing()){90rvs();}
+    if(Controller1.ButtonL1.pressing()){_90fwd();}//L1 and L2 turn 90 backwards/forwards 4 intake
+    else if(Controller1.ButtonL2.pressing()){_90rvs();}
     else if(Controller1.ButtonR1.pressing()){arm.spin(forward,12,volt);}//R1 and R2 yeet it like the old program
     else if(Controller1.ButtonR2.pressing()){arm.spin(forward,-12,volt);}
-    else if(Controller1.ButtonR1.pression()&&Controller1.ButtonR2.pressing())
-    else if(Controller.ButtonL2.pressing() && Controller.ButtonL1.pressing() && canPress==True){
+    else if(Controller1.ButtonL2.pressing() && Controller1.ButtonL1.pressing() && canPress==true){
     stop_hammer_time();//swap between coast and hold stopping patterns
-    arm.stop()
-    canPress=False;
+    arm.stop();
+    canPress=false;
     }
-    else{arm.stop(); canPress=True;}
+    else{arm.stop(); canPress=true;}
     Controller1.ButtonA.pressed(turnAround);
     mLeft.spin(forward,Controller1.Axis3.position()*.12+Controller1.Axis1.position()*.75*.12, volt);
     mRight.spin(forward,Controller1.Axis3.position()*.12-Controller1.Axis1.position()*.75*.12, volt);
